@@ -45,7 +45,7 @@ class HomePageTest(TestCase):
 
     def test_home_page_displays_all_list_items(self):
         Item.objects.create(text='itemey 1')
-        Item.objects.create(text='itemet 2')
+        Item.objects.create(text='itemey 2')
 
         request = HttpRequest()
         response = home_page(request)
