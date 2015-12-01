@@ -64,7 +64,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertIn('Buy milk', page_text)
 
-
     def tearDown(self):
         self.browser.quit()
 
