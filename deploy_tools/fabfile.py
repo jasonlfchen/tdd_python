@@ -5,12 +5,8 @@ import random
 import time
 import subprocess
 import os
-import boto.ec2
 
 REPO_URL = 'https://github.com/jchen7960/tdd_python'
-
-env.hosts = ['localhost',]
-env.aws_region = 'us-west-2'
 
 @task
 def deploy():
@@ -26,19 +22,6 @@ def deploy():
 @task
 def deploy_small_ec2_instance():
     local('/usr/bin/ec2-run-instances ami-5189a661 --instance-type t2.micro --region us-west-2 --key ${EC2_KEYPAIR} --user-data user-data.sh --group ${SGROUP}')
-
-@task
-def deploy_medium_ec2_instance():
-    local('/usr/bin/ec2-run-instances ami-6dacf728 --instance-type c1.medium --region us-west-2 --key ${EC2_KEYPAIR} --user-data-file user-data.sh --group ${SGROUP}')
-
-@task
-def deploy_large_ec2_instance():
-    local('/usr/bin/ec2-run-instances ami-6dacf728 --instance-type m1.large --region us-west-2 --key ${EC2_KEYPAIR} --user-data-file user-data.sh --group ${SGROUP}')
-
-@task
-def deploy_large_ec2_instance():
-    local('/usr/bin/ec2-run-instances ami-6dacf728 --instance-type m1.large --region us-west-2 --key ${EC2_KEYPAIR} --user-data-file user-data.sh --group ${SGROUP}')
-                                
 
 def _create_directory_structure_if_necessary(site_folder):
     for subfolder in ('database', 'static', 'virtualenv', 'source'):
