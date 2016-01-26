@@ -14,7 +14,7 @@ class NewVisitorTest(FunctionalTest):
         #Then Edith enters a to-do item straight away
         #And Edith types "Buy peacock feathers" into a text box
         #When Edith hits enter, the page updates and lists a to-do table
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Buy peacock feathers')
        
         #When Edith hits enter, she is taken to a new URL
@@ -24,7 +24,6 @@ class NewVisitorTest(FunctionalTest):
         self.check_for_row_in_list_table('1: Buy peacock feathers')
 
         #There is an additional text box inviting Edith to add another item
-        inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
 
@@ -43,7 +42,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotIn('make a fly', page_text)
         
         #Francis enters a new list
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
 
