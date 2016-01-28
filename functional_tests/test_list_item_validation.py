@@ -4,6 +4,9 @@ from unittest import skip
 
 class ItemValidation(FunctionalTest):
     
+    def get_error_element(self):
+        return self.browser.find_element_by_css_selector('.has-error')
+
     def test_cannot_add_empty_list_items(self):
         #Given Edith goes to the home page
         self.browser.get(self.server_url)
@@ -12,7 +15,7 @@ class ItemValidation(FunctionalTest):
 
         #When she tries to submit an empty list item
         #An error message appears
-        error = self.browser.find_element_by_css_selector('.has-error')
+        error = self.get_error_element()
         self.assertEqual(error.text, "You can't have an empty list item")
 
         #Then she tries again with some text for the item
@@ -25,7 +28,7 @@ class ItemValidation(FunctionalTest):
         inputbox = self.get_item_input_box()
         inputbox.send_keys(Keys.RETURN)
         self.check_for_row_in_list_table('1: Buy milk')
-        error = self.browser.find_element_by_css_selector('.has-error')
+        error = self.get_error_element()
         self.assertEqual(error.text, "You can't have an empty list item")
 
         #Then Edith fills in the list with text
@@ -47,5 +50,19 @@ class ItemValidation(FunctionalTest):
 
         #Then shees an error message
         self.check_for_row_in_list_table('1: Buy wellies')
-        error = self.browser.find_element_by_css_selector('.has-error')
+        error = self.get_error_element()
         self.assertEqual(error.text, "You've already got this in your list")
+
+    def test_error_messages_are_cleared_on_input(self):
+        #Given Edith starts a new list that causes a validation error
+        self.browser.get(self.server_url)
+        inputbox = self.get_item_input_box()
+        inputbox.send_keys(Keys.RETURN)
+        error = self.get_error_element()
+        self.assertTrue(error.is_displayed())
+
+        #When she starts typing in the input box to clear the error
+        inputbox = self.get_item_input_box()
+        inputbox.send_keys('a')
+        error = self.get_error_element()
+        self.assertFalse(error.is_displayed())
