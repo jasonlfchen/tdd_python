@@ -1,0 +1,22 @@
+{
+  "name": "test",
+  "homepage": "https://github.com/jchen7960/tdd_python",
+  "authors": [
+    "Jason Chen <jchen7960@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jasmine-core": "jasmine#^2.4.1",
+    "jasmine-jquery": "^2.1.1"
+  }
+}
