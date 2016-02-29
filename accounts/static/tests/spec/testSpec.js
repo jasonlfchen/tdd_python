@@ -1,4 +1,4 @@
-describe('Main test', function () {
+describe('Main', function () {
     beforeEach(function() {
         loadFixtures('tests.html');
     });
@@ -68,6 +68,24 @@ describe('Main test', function () {
             var assertion = 'browser-id assertion';
             onloginCallback(assertion);
             expect(requests[0].requestBody).toEqual($.param({assertion: assertion, csrfmiddlewaretoken: token}));
+        });
+
+        it('Test onlogout function', function () {
+            var onlogoutCallback = mockNavigator.id.watch.firstCall.args[0].onlogout;
+            expect(typeof onlogoutCallback).toMatch('function');
+        });
+
+        it('Test onlogin post failure should do navigator.id.logout', function () {
+            mockNavigator.id.logout = sinon.mock();
+            var onloginCallback = mockNavigator.id.watch.firstCall.args[0].onlogin;
+            var server = sinon.fakeServer.create();
+            server.respondWith([403, {}, "permission denied"]);
+
+            onloginCallback();
+            expect(mockNavigator.id.logout.called).toBeFalsy('should not logout yet');
+
+            server.respond();
+            expect(mockNavigator.id.logout.called).toBeTruthy('should call logout');
         });
     });
 });
