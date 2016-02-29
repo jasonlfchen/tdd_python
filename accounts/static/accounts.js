@@ -5,12 +5,12 @@ var initialize = function (navigator, user, token, urls) {
    navigator.id.watch({
         loggedInUser: user,
         onlogin: function (assertion) {
-            $.post(
+            var deferred = $.post(
                 urls.login,
                 { assertion: assertion, csrfmiddlewaretoken: token }
-            )
-                .done(function() { window.location.reload(); })
-                .fail(function() { navigator.id.logout(); });
+            );
+            deferred.done(function() { window.location.reload(); })
+            deferred.fail(function() { navigator.id.logout(); });
         },
         onlogout: function () {},
    });
